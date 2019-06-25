@@ -1,9 +1,9 @@
 # Argon Wrapper Makefile
 # This file is based on the original Argon2 reference
 # Argon2 source code package
-# 
+#
 # This work is licensed under a Creative Commons CC0 1.0 License/Waiver.
-# 
+#
 # You should have received a copy of the CC0 Public Domain Dedication along with
 # this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 #
@@ -28,6 +28,7 @@ BUILD_PATH := $(shell pwd)
 KERNEL_NAME := $(shell uname -s)
 
 LIB_NAME=argon2_wrap
+LIB_PREFIX=lib
 ifeq ($(KERNEL_NAME), Linux)
 	LIB_EXT := so
 	LIB_CFLAGS := -shared -fPIC
@@ -42,7 +43,8 @@ ifeq ($(KERNEL_NAME), Darwin)
 endif
 ifeq ($(findstring MINGW, $(KERNEL_NAME)), MINGW)
 	LIB_EXT := dll
-	LIB_CFLAGS := -shared -Wl,--out-implib,lib$(LIB_NAME).$(LIB_EXT).a
+	LIB_CFLAGS := -shared -Wl,--out-implib,$(LIB_NAME).$(LIB_EXT).a
+	LIB_PREFIX :=
 endif
 ifeq ($(KERNEL_NAME), $(filter $(KERNEL_NAME),OpenBSD FreeBSD))
 	LIB_EXT := so
@@ -55,11 +57,11 @@ ifeq ($(KERNEL_NAME), SunOS)
     LIB_CFLAGS := -shared -fPIC
 endif
 
-LIB_SH := lib$(LIB_NAME).$(LIB_EXT)
+LIB_SH := $(LIB_PREFIX)$(LIB_NAME).$(LIB_EXT)
 
-all: libs 
+all: libs
 libs: $(SRC)
-		$(CC) $(CFLAGS) $(LIB_CFLAGS) $^ -o libargon2_wrap.$(LIB_EXT)
+		$(CC) $(CFLAGS) $(LIB_CFLAGS) $^ -o $(LIB_SH)
 
 #Deliberately avoiding the CFLAGS for our test cases - disable optimise and
 #C89
@@ -68,7 +70,7 @@ test: $(SRC) test.c
 	./tests
 
 clean:
-	rm -f tests libargon2_wrap.$(LIB_EXT)
+	rm -f tests $(LIB_SH)
 
 install:
 	echo none
