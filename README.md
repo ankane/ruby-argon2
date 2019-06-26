@@ -4,6 +4,7 @@ This Ruby Gem provides FFI bindings, and a simplified interface, to the Argon2 a
 
 
 [![Build Status](https://travis-ci.org/technion/ruby-argon2.svg?branch=master)](https://travis-ci.org/technion/ruby-argon2)
+[![Build Status](https://ci.appveyor.com/api/projects/status/kmro0tcf02sy3vvs/branch/master?svg=true)](https://ci.appveyor.com/project/ankane/ruby-argon2/branch/master)
 [![Code Climate](https://codeclimate.com/github/technion/ruby-argon2/badges/gpa.svg)](https://codeclimate.com/github/technion/ruby-argon2)
 [![Coverage Status](https://coveralls.io/repos/github/technion/ruby-argon2/badge.svg)](https://coveralls.io/github/technion/ruby-argon2)
 
